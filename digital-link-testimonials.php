@@ -1,12 +1,13 @@
 <?php
 /**
- * Plugin Name: Digital Link Testimonials Slider
+ * Plugin Name: Digital Link Testimonials
  * Plugin URI: http://digitallink.ca
- * Description: Creates a testimonials CPT and widget that rotates testimonials
+ * Description: Creates a testimonials CPT with template for single post and archive.
  * Version: 1.0
  * Author: Sally Poulsen
  * Author URI: http://sallypoulsen.com
  */
+
 
 /*
 *	Sets up the testimonial custom post type
@@ -40,41 +41,31 @@ function dl_create_testimonials() {
 add_action( 'init', 'dl_create_testimonials' );
 
 
-
+/*
+    Generates single template for testimonials
+*/
 
 function dl_custom_single_template( $template ) {
     global $post;
 
     if ( 'testimonials' === $post->post_type && locate_template( array( 'templates/testimonial.php' ) ) !== $template ) {
-        /*
-         * This is a 'movie' post
-         * AND a 'single movie template' is not found on
-         * theme or child theme directories, so load it
-         * from our plugin directory.
-         */
         return plugin_dir_path( __FILE__ ) . 'templates/testimonial.php';
     }
-
     return $template;
 }
 
 add_filter( 'single_template', 'dl_custom_single_template' );
 
 
+/*
+    Generates archive template for testimonials
+*/
+
 function dl_custom_archive_template( $template ) {
     global $post;
-
     if ( 'testimonials' === $post->post_type && locate_template( array( 'templates/testimonials-index.php' ) ) !== $template ) {
-        /*
-         * This is a 'movie' post
-         * AND a 'single movie template' is not found on
-         * theme or child theme directories, so load it
-         * from our plugin directory.
-         */
         return plugin_dir_path( __FILE__ ) . 'templates/testimonials-index.php';
     }
-
     return $template;
 }
-
 add_filter( 'archive_template', 'dl_custom_archive_template' );
