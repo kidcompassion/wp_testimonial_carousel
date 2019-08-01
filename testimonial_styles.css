@@ -1,0 +1,24 @@
+article.testimonial {
+    border: solid 4px red!important;
+}
+
+
+.testimonial-carousel {
+    border: solid 2px blue;
+    position: relative;
+    min-height: 400px;
+}
+
+.testimonial-carousel article {
+    position: absolute;
+    display: none;
+}
+
+.testimonial-carousel article.active {
+    display: block;
+}
+
+.carouselController {
+    position: relative;
+    z-index:999999;
+}

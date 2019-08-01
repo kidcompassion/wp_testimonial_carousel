@@ -40,6 +40,13 @@ function dl_create_testimonials() {
 
 add_action( 'init', 'dl_create_testimonials' );
 
+add_action( 'wp_enqueue_scripts', 'dl_testimonials_stylesheet' );
+
+function dl_testimonials_stylesheet() {
+    wp_enqueue_style( 'testimonial-styles', plugins_url('testimonial_styles.css', __FILE__) );
+    wp_enqueue_script( 'testimonial-js', plugins_url('testimonials.js', __FILE__), array('jquery') );
+
+}
 
 /*
     Generates single template for testimonials
@@ -69,3 +76,16 @@ function dl_custom_archive_template( $template ) {
     return $template;
 }
 add_filter( 'archive_template', 'dl_custom_archive_template' );
+
+
+function dl_generate_random_number(){
+    // get all testimonials and grab a random number from within them
+}
+
+function dl_featured_in_slider(){
+
+}
+
+function dl_shortcode_for_slider(){
+    
+}
