@@ -40,13 +40,14 @@ function dl_create_testimonials() {
 
 add_action( 'init', 'dl_create_testimonials' );
 
-add_action( 'wp_enqueue_scripts', 'dl_testimonials_stylesheet' );
 
 function dl_testimonials_stylesheet() {
     wp_enqueue_style( 'testimonial-styles', plugins_url('testimonial_styles.css', __FILE__) );
     wp_enqueue_script( 'testimonial-js', plugins_url('testimonials.js', __FILE__), array('jquery') );
-
 }
+
+add_action( 'wp_enqueue_scripts', 'dl_testimonials_stylesheet' );
+
 
 /*
     Generates single template for testimonials
@@ -63,7 +64,6 @@ function dl_custom_single_template( $template ) {
 
 add_filter( 'single_template', 'dl_custom_single_template' );
 
-
 /*
     Generates archive template for testimonials
 */
@@ -77,15 +77,22 @@ function dl_custom_archive_template( $template ) {
 }
 add_filter( 'archive_template', 'dl_custom_archive_template' );
 
-
-function dl_generate_random_number(){
-    // get all testimonials and grab a random number from within them
+function dl_testimonial_slider_shortcode( $atts ){
+    // Uses output buffering so I can avoid manually concatenating the template.
+    // WP shortcodes require a value be passed via "return" - if it isn't, it will, by default, load at the top of the page
+    ob_start();
+    include 'templates/testimonial-carousel.php';
+    $ob = ob_get_clean();
+    return $ob;
 }
+add_shortcode( 'testimonials_slider', 'dl_testimonial_slider_shortcode' );
 
-function dl_featured_in_slider(){
 
-}
+/*
+Check to see if testimonial scripts need to be loaded on a given page before loading them
+if page is not testimonial
+if carousel is not loaded
 
-function dl_shortcode_for_slider(){
-    
-}
+*/
+
+

@@ -1,12 +1,11 @@
 article.testimonial {
-    border: solid 4px red!important;
 }
 
 
 .testimonial-carousel {
-    border: solid 2px blue;
     position: relative;
-    min-height: 400px;
+    height: 300px;
+    overflow: scroll;
 }
 
 .testimonial-carousel article {
