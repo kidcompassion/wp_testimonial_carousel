@@ -1,0 +1,22 @@
+{
+  "name": "custom-testimonials",
+  "version": "1.0.0",
+  "description": "** Custom Post Type Plugin **",
+  "main": "testimonials.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://digitallinkyeg@bitbucket.org/digitallinkyeg/custom-post-type-plugin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/digitallinkyeg/custom-post-type-plugin#readme",
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.0.2",
+    "install": "^0.13.0",
+    "npm": "^6.13.7"
+  }
+}

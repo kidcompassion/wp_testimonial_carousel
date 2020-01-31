@@ -2,47 +2,48 @@
 jQuery( document ).ready(function( $ ) {
 
     firstCarousel=()=>{
-        $('article:first-child').addClass('active');
+        $('.testimonial-carousel article:first-child').addClass('active');
     }
 
     lastCarousel=()=>{
-        $('article:last-of-type').addClass('active');
+        $('.testimonial-carousel article:last-of-type').addClass('active');
     }
 
     clickNext=()=>{
-            var prev = $('.active');
-            var next = $('article.active').next('article');
+            $('.testimonial-carousel .moveRight').removeClass('moveRight');
+            var prev = $('.testimonial-carousel .active');
+            var next = $('.testimonial-carousel article.active').next('article');
             if(next.length ===1){
-                prev.removeClass('active');
+                prev.removeClass('active').addClass('moveRight');
                 next.addClass('active');
             } else {
-                $('.active').removeClass('active');
+                $('.testimonial-carousel .active').removeClass('active').addClass('moveRight');
                 firstCarousel();
             }
-            console.log(next);
-            
+
     }
 
     clickPrev=()=>{
-        console.log($('article:last-child'));
-            var next = $('.active');
-            var prev = $('article.active').prev('article');
+            $('.testimonial-carousel .moveLeft').removeClass('moveLeft');
+            var next = $('.testimonial-carousel .active');
+            var prev = $('.testimonial-carousel article.active').prev('article');
             if(prev.length ===1){
-                next.removeClass('active');
+                next.removeClass('active').addClass('moveLeft');
                 prev.addClass('active');
             } else {
-                $('.active').removeClass('active');
+                $('.testimonial-carousel .active').removeClass('active');
                 lastCarousel();
             }
     }
 
     firstCarousel();
 
-    $('#next').click(function(){
+    $('.testimonial-carousel .carouselController.next').click(function(){
+        
         clickNext();
     });
 
-    $('#prev').click(function(){
+    $('.testimonial-carousel .carouselController.prev').click(function(){
         clickPrev();
     });
 
