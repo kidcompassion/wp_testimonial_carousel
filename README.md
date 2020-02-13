@@ -1,5 +1,13 @@
-** Custom Post Type Plugin **
+# Testimonial CPT and Carousel Post type
 
-This plugin, when installed, will programmatically create a custom post type. This one is made for testimonials, but you can change it to be called whatever you like by swapping out "testimonials" for your desired name.
+This plugin, when installed, will programmatically create a custom post type called "testimonials" (but you can change that to whatever you like).
 
-When using this with Elementor, you'll want to got to the Elementor settings page and make sure you add the Elementor editor to your new custom post type.
+The purpose is to make it easier to install and customize the look and behaviour of a testimonial (or other CPT).
+
+This plugin is built on the classic editor, and styles are done with sass, compiled by Gulp.
+
+To update it, cd into the plugin directory, and run 
+`npm install`
+
+Next, run `gulp watchSass`, and it will compile the sass into the testimonial_styles.css plugin at the root of the directory.
+
