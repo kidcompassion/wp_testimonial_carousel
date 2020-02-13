@@ -2,16 +2,17 @@
 /**
  * Plugin Name: Custom Testimonials
  * Plugin URI: http://sallypoulsen.com
- * Description: Creates a testimonials CPT with template for single post and archive.
- * Version: 1.0
+ * Description: Creates a testimonials carousel based off of CPT with templates for single post and archive.
+ * Version: 1.4
  * Author: Sally Poulsen
  * Author URI: http://sallypoulsen.com
  */
 
-
-/*
-*	Sets up the testimonial custom post type
-*/
+/**
+ * Testimonials Custom Post Type
+ *
+ * @return void
+ */
 
 function x_testimonials_create_testimonials() {
  
@@ -34,7 +35,7 @@ function x_testimonials_create_testimonials() {
             'public' => true,
             'has_archive' => true,
             'rewrite' => array('slug' => 'testimonials'),
-            'supports' => array( 'title', 'editor', 'thumbnail', 'excerpt' )
+            'supports' => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions' )
         )
     );
 }
@@ -42,22 +43,30 @@ function x_testimonials_create_testimonials() {
 add_action( 'init', 'x_testimonials_create_testimonials' );
 
 
+/**
+ * Enqueue the styles and JS
+ *
+ * @return void
+ */
+
 function x_testimonials_testimonials_stylesheet() {
     wp_enqueue_style( 'testimonial-styles', plugins_url('testimonial_styles.css', __FILE__) );
     wp_enqueue_script( 'testimonial-js', plugins_url('testimonials.js', __FILE__), array('jquery') );
-    wp_enqueue_style( 'font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css');
 }
 
 add_action( 'wp_enqueue_scripts', 'x_testimonials_testimonials_stylesheet' );
 
 
-/*
-    Generates single template for testimonials
-*/
-
+/**
+ * Sets up custom single template for individual testimonials
+ *
+ * @param [type] $template
+ * @return void
+ */
 function x_testimonials_custom_single_template( $template ) {
     global $post;
 
+    // If the post type is 'testimonials', find and load the correct single template
     if ( 'testimonials' === $post->post_type && locate_template( array( 'templates/testimonial.php' ) ) !== $template ) {
         return plugin_dir_path( __FILE__ ) . 'templates/testimonial.php';
     }
@@ -66,12 +75,17 @@ function x_testimonials_custom_single_template( $template ) {
 
 add_filter( 'single_template', 'x_testimonials_custom_single_template' );
 
-/*
-    Generates archive template for testimonials
-*/
+/**
+ * Sets up archive page for testimonials
+ *
+ * @param [type] $template
+ * @return void
+ */
 
 function x_testimonials_custom_archive_template( $template ) {
     global $post;
+
+    // If the post type is 'testimonials', find and load the correct archive template
     if ( is_post_type_archive ( 'testimonials' ) ) {
         if ( 'testimonials' === $post->post_type && locate_template( array( 'templates/testimonials-index.php' ) ) !== $template ) {
             return plugin_dir_path( __FILE__ ) . 'templates/testimonials-index.php';
@@ -81,6 +95,13 @@ function x_testimonials_custom_archive_template( $template ) {
 }
 add_filter( 'archive_template', 'x_testimonials_custom_archive_template' );
 
+
+/**
+ * Creates the [testimonials_slider] shortcode 
+ *
+ * @param [type] $atts
+ * @return void
+ */
 function x_testimonials_testimonial_slider_shortcode( $atts ){
     // Uses output buffering so I can avoid manually concatenating the template.
     // WP shortcodes require a value be passed via "return" - if it isn't, it will, by default, load at the top of the page
@@ -91,60 +112,65 @@ function x_testimonials_testimonial_slider_shortcode( $atts ){
 }
 add_shortcode( 'testimonials_slider', 'x_testimonials_testimonial_slider_shortcode' );
 
+
 /**
- * Register meta boxes.
+ * Add metabox to attribution fields
+ *
+ * @return void
  */
+
 function x_testimonials_register_meta_boxes() {
     add_meta_box( 'x-1', __( 'Testimonial Attribution', 'x' ), 'x_testimonials_display_callback', 'testimonials', 'normal', 'high' );
 }
+
 add_action( 'add_meta_boxes', 'x_testimonials_register_meta_boxes' );
 
+
+
 /**
- * Meta box display callback.
+ * Callback loads the form for the attribute fields into the metabox
  *
- * @param WP_Post $post Current post object.
+ * @param [type] $post
+ * @return void
  */
+
 function x_testimonials_display_callback( $post ) {
     include plugin_dir_path( __FILE__ ) . './templates/form.php';
 
 }
 
-
 /**
- * Save meta box content.
+ * Save contents of metabox
  *
- * @param int $post_id Post ID
+ * @param [type] $post_id
+ * @return void
  */
 function x_testimonials_save_meta_box( $post_id ) {
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+
     if ( $parent_id = wp_is_post_revision( $post_id ) ) {
         $post_id = $parent_id;
     }
+
     $fields = [
-        'x_testimonials_attr_name',
-        'x_testimonials_attr_title',
+        'x_testimonials_attr_name', // Attribution name field
+        'x_testimonials_attr_title', // Attribution title field
     ];
+
     foreach ( $fields as $field ) {
         if ( array_key_exists( $field, $_POST ) ) {
             update_post_meta( $post_id, $field, sanitize_text_field( $_POST[$field] ) );
         }
      }
 }
+
 add_action( 'save_post', 'x_testimonials_save_meta_box' );
 
 
 
 
-// thumbs 790 x 585
+/**
+ * Sets up custom thumbnail size for the carousel
+ */
+
 add_image_size( 'testimonial-carousel-thumb', 790, 585, array( 'center', 'top' ) ); 
-
-
-
-/*
-Check to see if testimonial scripts need to be loaded on a given page before loading them
-if page is not testimonial
-if carousel is not loaded
-
-*/
-
-

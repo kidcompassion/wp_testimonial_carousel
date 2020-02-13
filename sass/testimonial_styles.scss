@@ -1,127 +1,76 @@
-
-@import 'global';
 @import 'vars_and_mixins';
 
-.testimonial-carousel{
-    height: 500px;
+// Wrapper
+.testimonial--carousel{
+    display: flex;
     font-family: sans-serif;
     color: $primary-text-color;
     font-weight: normal;
     font-size: 1em;
+    justify-content: center;
+    min-height: 550px;
+    @media only screen and (min-width: 960px) {}
 }
 
-
-// Carousel slides
-.testimonial-carousel article {
+// Slide
+.testimonial--carousel article {
     display: flex;
     flex-direction: column;
     position: absolute;
     opacity: 0;
     text-align: left;
-    -webkit-transition: all 2s; 
-    transition: all 2s;
-    @media only screen and (min-width: 960px) {
-        flex-direction: row;
-    }
-}
+    @include transition(all, 2s);
+    @media only screen and (min-width: 960px) {}
 
-.testimonial-carousel article.active {
-    opacity: 1;
-    -webkit-transition: all 2s; 
-    transition: all 2s;
-}
-
-
-
-
-
-
-// Set up wrapper for text on the left, and image/controllers on the right 
-.testimonial-carousel .left--column, .testimonial-carousel .right--column{
-    display: flex;
-    //align-items: flex-end;
-    flex-direction: column;  
-    @media only screen and (min-width: 960px) {
-        width: 40%;
-    }
-}
-
-
-.testimonial-carousel .left--column{
-    @media only screen and (min-width: 960px) {
-        align-items: center;
-        justify-content: flex-end;
-    }
-}
-
-
-
-// Set shrink to 0 so they share the space 50/50
-.testimonial-carousel .right--column{
-    flex-shrink: 0;
-    align-items: stretch;
-    @media only screen and (min-width: 960px) {
-        width:55%;
-
-    }
-}
-
-
-
-// Text border and wrapper
-.testimonial-carousel article .testimonial--text-border{
-    display: flex;
-    border: solid 1px $accent-color;
-    @media only screen and (min-width: 960px) {
-        
-        margin-right: -60px;
-        align-self: flex-end;
-        
-    }
-}
-
-.testimonial-carousel article .testimonial--text-content{
-    margin: 20px;
-    background-color: #f2f2f2;
-    padding: 3% 5%;
-    @media only screen and (min-width: 960px) {
-        position: relative;
-        z-index: 9999;
-        padding: 3% 8%;
-        font-size: 0.8em;
-    }
-    @media only screen and (min-width: 1024px) {
-        font-size: 1em;
-    }
-
-    .attribution--name {
-        color: $secondary-text-color;
-        text-transform: uppercase;
-        font-weight: bold;
-        font-size: 1.2em;
-        display: flex;
-    }
-    .attribution--title {
-        font-weight: bold;
-        display: flex;
+    &.x_active {
+        opacity: 1;
+        @include transition(all, 2s);
     }
     
-}
-
-
-// Image container
-.testimonial-carousel article .testimonial--thumb{
-    display: flex;
-    flex-shrink: 0;
-    z-index:1;
-
-    img {
+    .testimonial--image{
         min-width: 100%;
     }
     
+    .testimonial--excerpt{
+        display: flex;
+        flex-shrink: 1;
+        flex-grow: 0;
+    }
+
+    .testimonial--attribution{
+        display: flex;
+        flex-direction: column;
+
+        .attribution--name {
+            color: $secondary-text-color;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 1.2em;
+            display: flex;
+        }
+        .attribution--title {
+            font-weight: bold;
+            display: flex;
+        }
+    }
 }
 
 
+/**
+    Links
+**/
+
+.testimonial--links{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    .single-testimonial-btn, .all-testimonials-btn {
+        display: flex;
+        margin: 10px;
+        flex-shrink: 1;
+        flex-grow: 0;
+    }
+}
 
 /**
  Carousel Controllers
@@ -130,115 +79,18 @@
 .controllerContainer{
     display: flex;
     flex-direction: row;
-    @media only screen and (min-width: 960px) {
-        margin-left:15%;
-        margin-top: 5%;
-    }
+    align-self: flex-end;
+    align-items: stretch;
+    position: relative;
+    z-index:99999999;
+    justify-content: center;
+
+    .carouselController.prev, .carouselController.next{
+        border: solid 1px $accent-color;
+        padding: 10px 20px;
+        display: flex;
+        flex-grow: 1;
+        background: #fff;
+        justify-self: center;
+    }   
 }
-
-
-.carouselController.prev, .carouselController.next{
-    border: solid 1px $accent-color;
-    padding: 10px 20px;
-    background: #fff;
-}
-
-
-
-/*
-    .testimonial-carousel .testimonial--excerpt {
-        font-size: 2rem;
-        line-height: 2.5rem;
-    }
-
-    @media (min-width: 768px) and (max-width: 1024px) {
-        .testimonial-carousel .testimonial--excerpt {
-            font-size: 1.25rem;
-            line-height: 2rem;
-        }
-    }
-
-.testimonial-carousel .testimonial--excerpt:before {
-    content: '\f10d';
-    font-family: 'fontawesome';
-    font-size: 3rem;
-    position: absolute;
-    left:0;
-    opacity: 0.2;
-}
-
-.testimonial-carousel .testimonial--excerpt:after {
-    content: '\f10e';
-    font-family: 'fontawesome';
-    font-size: 3rem;
-    position: absolute;
-    right:0;
-    opacity: 0.2;
-}
-
-.testimonial-carousel article.active {
-    opacity: 1;
-    -webkit-transition: all 2s; 
-    transition: all 2s;
-}
-
-.testimonial-carousel .moveRight {
-    opacity: 0;
-    -webkit-transition: all 2s; 
-    transition: all 2s;
-}
-
-.testimonial-carousel .moveLeft {
-    opacity: 0;
-    -webkit-transition: all 2s; 
-    transition: all 2s;
-}
-
-
-.testimonial-carousel .carouselController {
-    position: absolute;
-    z-index:999999;
-    display: inline-block;
-    padding: 4px 20px;
-    transform: translateY(-50%);
-    top:50%;
-}
-
-.testimonial-carousel #prev{
-    left:0;
-}
-.testimonial-carousel #next {
-    right: 0;
-}
-
-
-.testimonial-carousel .chevron::before {
-	display: inline-block;
-	position: relative;
-	vertical-align: top;
-    opacity: 0.7;
-
-}
-
-.testimonial-carousel .chevron.right:before {
-    left: 0;
-    content: '\f054';
-    font-family: 'fontawesome';
-}
-
-.testimonial-carousel .chevron.left:before {
-    left: 0.25em;
-    content: '\f053';
-    font-family: 'fontawesome';
-}
-
-.testimonial-carousel .btn {
-    background:transparent;
-	border:2px solid white;
-	border-radius:0px;
-}
-
-.testimonial-carousel .single-testimonial-btn {
-    background-color: #fff;
-    color: #251982;
-}*/

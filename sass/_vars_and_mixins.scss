@@ -1,4 +1,9 @@
-$accent-color: #afb016;
-$primary-text-color: #646368;
-$secondary-text-color: #4b4085;
+$accent-color: #ccc;
+$primary-text-color: #999;
+$secondary-text-color: #666;
 $bg-color: #f2f2f2;
+
+@mixin transition($property, $time){
+    -webkit-transition: $property $time; 
+    transition: $property $time;
+}

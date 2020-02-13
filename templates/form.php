@@ -1,3 +1,10 @@
+
+<?php 
+/***
+ * Form content for metabox 
+ */
+;?>
+
 <div class="hcf_box">
     <style scoped>
         
